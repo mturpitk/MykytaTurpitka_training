@@ -1,1 +1,1 @@
-# MykytaTurpitka_trainig
+# MykytaTurpitka_training
