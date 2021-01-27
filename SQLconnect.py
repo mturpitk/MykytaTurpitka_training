@@ -14,14 +14,30 @@ def writeToDB(dbDict):
     writeQuery = pd.DataFrame(data=dbDict)
     writeQuery.to_sql(name = 'clientDB',con = connection, if_exists = 'append', index = False)
 
+def nameInput():
+    return input('Please, enter client name: ')
+
+def idInput():
+    return int(input("Please, enter client id: "))
+
 
 if __name__ == '__main__':
 
-    connection = create_engine("mysql+mysqldb://root:turpitka@localhost/Clients")
+    status = input("Hello! Hit 'Return' to proceed. To exit: enter 'e'.")
+    if status != 'e':
+        connection = create_engine("mysql+mysqldb://root:turpitka@localhost/Clients")
 
-    #tableName = input("Please, enter the name of the table: ")
-    clientDB_df = pd.read_sql_table('clientDB', connection)
+        # tableName = input("Please, enter the name of the table: ")
+        clientDB_df = pd.read_sql_table('clientDB', connection)
 
-    db = {i: [] for i in list(clientDB_df.columns)}
+        db = {i: [] for i in list(clientDB_df.columns)}
 
-    writeToDB(collectInfo(int(input("Please, enter client id: ")), input('Please, enter client name: ')))
+        write_count = 0
+
+    while status != 'e':
+        writeToDB(collectInfo(idInput(), nameInput()))
+        write_count += 1
+        status = input("Hit 'Return' to make another entry. To exit: enter 'e'.")
+
+
+    print("Session Details:\nwrites: " + str(write_count))
